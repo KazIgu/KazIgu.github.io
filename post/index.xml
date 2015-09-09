@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on KazIgu SandBox</title>
+    <link>http://kazigu.github.io/post/</link>
+    <description>Recent content in Posts on KazIgu SandBox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <copyright>© 2015 Copyright kazuya</copyright>
+    <lastBuildDate>Tue, 25 Aug 2015 17:32:46 +0900</lastBuildDate>
+    <atom:link href="http://kazigu.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>自己紹介</title>
+      <link>http://kazigu.github.io/post/readme/</link>
+      <pubDate>Tue, 25 Aug 2015 17:32:46 +0900</pubDate>
+      
+      <guid>http://kazigu.github.io/post/readme/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://saib-stud.io&#34;&gt;saib studio&lt;/a&gt;でエンジニアをやっています。&lt;br /&gt;
+主にフロントエンド。&lt;br /&gt;
+好きな言語はpython, golang, node, ruby&lt;/p&gt;
+
+&lt;p&gt;聖飢魔IIが好きです。&lt;br /&gt;
+Five Finger Death Punchも好きです。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Css Trick on KazIgu SandBox</title>
+    <link>http://kazigu.github.io/tags/css-trick/</link>
+    <description>Recent content in Css Trick on KazIgu SandBox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <copyright>© 2015 Copyright kazuya</copyright>
+    <lastBuildDate>Wed, 09 Sep 2015 17:32:46 +0900</lastBuildDate>
+    <atom:link href="http://kazigu.github.io/tags/css-trick/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>CSSでのParallax</title>
+      <link>http://kazigu.github.io/sandbox/css-parallax/</link>
+      <pubDate>Wed, 09 Sep 2015 17:32:46 +0900</pubDate>
+      
+      <guid>http://kazigu.github.io/sandbox/css-parallax/</guid>
+      <description>
+
+&lt;p&gt;LPの作成時などにパララックスがどーのとかが増えている。&lt;br /&gt;
+jsを使って実装することが多いのだがスクロールでのイベントになるのでパフォーマンス意識しだすと案外めんどくさい。&lt;br /&gt;
+しかもパララックスの時ってデザイナーがこだわって調整することが多いからプラグインだと不便なこともしばしば&lt;br /&gt;
+でも&lt;strong&gt;ラクに実装したい！！&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;show.html&#34;&gt;サンプル&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;cssでパララックス:71cd85b8ed6755a0b53d54e8be2a2e42&#34;&gt;cssでパララックス！！&lt;/h3&gt;
+
+&lt;p&gt;ただ単に奥行きが欲しいだけなら&lt;code&gt;perspective&lt;/code&gt;と&lt;code&gt;translateZ&lt;/code&gt;を使うことでcssでも実現出来ます。&lt;br /&gt;
+IE8??知りません。&lt;br /&gt;
+IE10からなら動くはずです。&lt;/p&gt;
+
+&lt;p&gt;とりあえず&lt;a href=&#34;show.html&#34;&gt;サンプル&lt;/a&gt;用意しました。&lt;/p&gt;
+
+&lt;h3 id=&#34;コード:71cd85b8ed6755a0b53d54e8be2a2e42&#34;&gt;コード&lt;/h3&gt;
+
+&lt;p&gt;必要な部分はこんな感じ&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-html&#34;&gt;html
+&amp;lt;div class=&amp;quot;container&amp;quot;&amp;gt;
+  &amp;lt;div class=&amp;quot;layer01&amp;quot;&amp;gt;レイヤー 1&amp;lt;/div&amp;gt;
+  &amp;lt;div class=&amp;quot;layer02&amp;quot;&amp;gt;レイヤー 2&amp;lt;/div&amp;gt;
+  &amp;lt;div class=&amp;quot;layer03&amp;quot;&amp;gt;レイヤー 3&amp;lt;/div&amp;gt;
+  &amp;lt;div class=&amp;quot;layer04&amp;quot;&amp;gt;レイヤー 4&amp;lt;/div&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-css&#34;&gt;.container {
+  perspective: 100px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.layer01 {
+  transform: translateZ(-100px);
+}
+.layer02 {
+  transform: translateZ(-50px);
+}
+.layer03 {
+  transform: translateZ(0);
+}
+.layer04 {
+  transform: translateZ(50px);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;サイズも距離に応じて変わるけどそれが嫌なら&lt;code&gt;scale&lt;/code&gt;で調整するといい感じになりります。&lt;br /&gt;
+パフォーマンスもいいし階層増やせまくれるし横スクロールでもちゃんとなるからオススメ&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

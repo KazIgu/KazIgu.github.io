@@ -1,0 +1,16 @@
+antialiased()
+  -webkit-font-smoothing antialiased
+  -moz-osx-font-smoothing grayscale
+
+font-weight(value)
+  font-weight value
+  if value == bold
+    antialiased()
+  else
+    -webkit-font-smoothing auto
+    -moz-osx-font-smoothing auto
+
+font-awesome()
+  font normal normal normal 14px/1 FontAwesome
+  text-rendering auto
+  antialiased()

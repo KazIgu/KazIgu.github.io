@@ -1,0 +1,111 @@
+.bl-card
+  overflow hidden
+  display inline-block
+  vertical-align top
+  box-sizing border-box
+  position relative
+  text-align left
+  float left
+  @media sp
+    width calc(50% - 10px)
+    margin 0 0 30px
+    &:nth-child(2n)
+      margin-left 20px
+  @media pc
+    width calc(33.3% - 10px)
+    margin 0 0 30px
+    &:nth-child(3n - 1)
+      margin-left 15px
+      margin-right 15px
+  @media pcFull
+    width calc(25% - 10px)
+    margin 0 13px 30px 0
+    &:nth-child(4n)
+      margin-right 0
+  &__image
+    max-width 100%
+    height 0
+    box-sizing content-box
+    padding-top 67%
+    text-align center
+    overflow hidden
+    position relative
+    &:before
+      content ''
+      width 100%
+      height 100%
+      position absolute
+      left 0
+      top 0
+      background alpha(#000,0.5)
+      opacity 0
+      transition opacity 0.25s ease-out
+      z-index 2
+    &:after
+      font-awesome()
+      content "\f1d8"
+      width 50px
+      height 50px
+      line-height 44px
+      font-size 22px
+      text-indent -2px
+      text-align center
+      box-sizing border-box
+      border 2px solid white
+      color white
+      border-radius 25px
+      position absolute
+      left 50%
+      top 50%
+      opacity 0
+      transform scale(5) translate(-50%, -50%)
+      transform-origin 0 0
+      transition opacity 0.25s ease-out,
+                 transform 0.25s ease-out
+      z-index 2
+    img
+      position absolute
+      left 0
+      top 0
+      width 100%
+  &__date
+    font-family dosis_font_family
+    font-size 1.4rem
+    color black
+    margin 3px 0 0
+  &__title
+    font-family dosis_font_family
+    font-size 2.4rem
+    font-weight normal
+    margin 2px 0 8px
+    line-height 1.4
+    color black
+    overflow hidden
+    text-overflow ellipsis 
+  &__description
+    color #555
+    overflow hidden
+    height 8em
+    @media sp
+      height 3em
+  &__category
+    position absolute
+    right 0
+    top 0
+    display inline-block
+    background alpha(#000, 0.8)
+    padding 5px 10px
+    overflow hidden
+    font-family dosis_font_family
+    color white
+
+  &:hover &__image
+    &:after
+      opacity 1
+      transform scale(1) translate(-50%, -50%)
+    &:before
+      opacity 1
+
+  &:active &__image
+    &:after
+      transform scale(1) translate(300%, -300%)

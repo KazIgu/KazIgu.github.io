@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Others on KazIgu SandBox</title>
+    <link>http://kazigu.github.io/categories/others/</link>
+    <description>Recent content in Others on KazIgu SandBox</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>ja</language>
+    <copyright>© 2015 Copyright kazuya</copyright>
+    <lastBuildDate>Mon, 07 Sep 2015 17:32:46 +0900</lastBuildDate>
+    <atom:link href="http://kazigu.github.io/categories/others/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Akiyamarkdown</title>
+      <link>http://kazigu.github.io/sandbox/akiyamarkdown/</link>
+      <pubDate>Mon, 07 Sep 2015 17:32:46 +0900</pubDate>
+      
+      <guid>http://kazigu.github.io/sandbox/akiyamarkdown/</guid>
+      <description>
+
+&lt;p&gt;世の中には議事録というものが存在するらしい(僕は苦手)&lt;br /&gt;
+多くの人はmarkdownを使って書いているらしい&lt;br /&gt;
+かくいうこのブログもmarkdownだ&lt;br /&gt;
+しかしそれにロマンがあるか！？いやない！！！&lt;br /&gt;
+てわけで弊社(&lt;a href=&#34;http://saib-stud.io&#34;&gt;saib studio&lt;/a&gt;)代表 秋山くんのためにAkiyamarkdownを用意してみた。&lt;/p&gt;
+
+&lt;h3 id=&#34;akiyamarkdownとは:d09c92535d1494e16daa10630c05868e&#34;&gt;Akiyamarkdownとは&lt;/h3&gt;
+
+&lt;p&gt;僕の愛用エディタSublime Textのpluginである。Package Controlには載っていない。&lt;br /&gt;
+あの秋山直樹の手癖をそのまま使いやすく、見やすくすることを目的としている。&lt;/p&gt;
+
+&lt;h3 id=&#34;めんどくさくなったので:d09c92535d1494e16daa10630c05868e&#34;&gt;めんどくさくなったので&lt;/h3&gt;
+
+&lt;p&gt;githubは&lt;a href=&#34;https://github.com/KazIgu/sublime-akiyamarkdown&#34;&gt;こちら&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>自己紹介</title>
+      <link>http://kazigu.github.io/post/readme/</link>
+      <pubDate>Tue, 25 Aug 2015 17:32:46 +0900</pubDate>
+      
+      <guid>http://kazigu.github.io/post/readme/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://saib-stud.io&#34;&gt;saib studio&lt;/a&gt;でエンジニアをやっています。&lt;br /&gt;
+主にフロントエンド。&lt;br /&gt;
+好きな言語はpython, golang, node, ruby&lt;/p&gt;
+
+&lt;p&gt;聖飢魔IIが好きです。&lt;br /&gt;
+Five Finger Death Punchも好きです。&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

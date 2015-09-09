@@ -1,0 +1,110 @@
+cnvRGB2HSV(color)
+  r = red(color)
+  g = green(color)
+  b = blue(color)
+  if r > g && r > b
+    maxColor = "red"
+    max = r
+    if g > b
+      min = b
+    else
+      min = g
+  else if g > r && g > b
+    maxColor = "green"
+    max = g
+    if r > b
+      min = b
+    else
+      min = r
+  else if b > r && b > g
+    maxColor = "blue"
+    max = b
+    if r > g
+      min = g
+    else
+      min = r
+
+  if maxColor == "red"
+    H = 60 * ( (g - b) / (max - min) )
+  else if maxColor == "green"
+    H = 60 * ( (b - r) / (max - min) ) + 120
+  else if maxColor == "blue"
+    H = 60 * ( (r - g) / (max - min) ) + 240
+  else
+    H = 0
+  if H < 0
+    H = H + 360
+
+  S = (max - min) / max
+  S = S * 100
+  V = max
+  V = V /255 * 100
+  return (H S V)
+
+cnvHSV2RGB(H,S,V)
+  max = V / 100 * 255
+  min = max - (S / 100 * max)
+  if H >= 0 && H < 60
+    r = max
+    g = H / 60 (max - min) + min
+    b = min
+
+  else if H >= 60 && H  < 120
+    r = (120 - H) / 60 (max - min) + min
+    g = max
+    b = min
+
+  else if H >= 120 && H  < 180
+    r = min
+    g = max
+    b = (120 - H) / 60 (max - min) + min
+
+  else if H >= 180 && H  < 240
+    r = min
+    g = (240 - H) / 60 * (max - min) + min
+    b = max
+    
+  else if H >= 240 && H  < 300
+    r = (240 - H) / 60 * (max - min) + min
+    g = min
+    b = max
+
+  else
+    r = max
+    g = min
+    b = (360 - H) / 60 * (max - min) + min
+
+  r = round(r)
+  g = round(g)
+  b = round(b)
+  return (r g b)
+
+// 16進数かRGBのcolorと変更したいhue(色相)の値を渡せばそれに応じたカラーコードが返ってきます。
+hueHSV(color, value)
+  HSV = cnvRGB2HSV(color)
+  H = HSV[0]
+  S = HSV[1]
+  V = HSV[2]
+  rgbColor = cnvHSV2RGB( (H + value), S, V)
+  colorCode = rgba(rgbColor[0], rgbColor[1], rgbColor[2], 1)
+  return colorCode
+
+// 16進数かRGBのcolorと変更したいsaturate(彩度)の値を渡せばそれに応じたカラーコードが返ってきます。
+saturateHSV(color, value)
+  HSV = cnvRGB2HSV(color)
+  H = HSV[0]
+  S = HSV[1]
+  V = HSV[2]
+  rgbColor = cnvHSV2RGB(H, (S + value), V)
+  colorCode = rgba(rgbColor[0], rgbColor[1], rgbColor[2], 1)
+  return colorCode
+
+// 16進数かRGBのcolorと変更したvalue(明度)の値を渡せばそれに応じたカラーコードが返ってきます。
+valueHSV(color, value)
+  HSV = cnvRGB2HSV(color)
+  H = HSV[0]
+  S = HSV[1]
+  V = HSV[2]
+  rgbColor = cnvHSV2RGB(H, S, (V + value) )
+  colorCode = rgba(rgbColor[0], rgbColor[1], rgbColor[2], 1)
+  return colorCode
