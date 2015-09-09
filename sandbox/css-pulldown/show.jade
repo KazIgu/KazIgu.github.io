@@ -7,8 +7,10 @@ html(lang="ja")
   body
     .header
       .header__navigation
-        input.header__navigation__input(type="checkbox" id="navigation")
         label.header__navigation__menu(for="navigation")
+          input(type="checkbox")
+          .header__navigation__menu__view
+        input.header__navigation__input(type="checkbox" id="navigation")
         .header__navigation__contents
           .header__navigation__contents__item
             | hoge
