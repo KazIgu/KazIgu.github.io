@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"><title>CSSでPullDown Menu</title><link href="//fonts.googleapis.com/css?family=Dosis" rel=stylesheet type=text/css><link href=http://kazigu.github.io/css/app.css type=text/css rel=stylesheet media=screen,projection><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/monokai_sublime.min.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css></head><body><noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-N4966W" height=0 width=0 style=display:none;visibility:hidden></iframe></noscript><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N4966W');</script><header class=bl-header><h2 class=bl-header__title><a href=http://kazigu.github.io>KazIgu SandBox</a></h2><p class=bl-header__description>作るぜー</p><nav class=bl-header__navigation><a class=is-trick title="CSS Tricks" href=http://kazigu.github.io/tags/css-trick>CSS Tricks</a> <a href=http://kazigu.github.io/categories>Categories</a> <a href=http://kazigu.github.io/tags>Tags</a></nav><div class=bl-header__social> <a class=bl-header__social__github href="https://github.com/KazIgu"><i class="fa fa-github"></i></a>     </div></header></body></html> <div class=bl-article><div class=bl-article__head><p class=bl-article__head__date>2015/09/09</p><h1 class=bl-article__head__title>CSSでPullDown Menu</h1><div class=bl-article__head__category> <a href="http://kazigu.github.io/categories/sandbox/">SandBox</a> </div> <div class=bl-article__head__tag> <a href="http://kazigu.github.io/tags/css-trick/">CSS Trick</a>  <a href="http://kazigu.github.io/tags/css/">css</a> </div></div><div class=bl-article__body>
+
+<p>スマホサイトとかでよくあるプルダウンメニュー<br />
+jsでわざわざクリックみてクラス付けてとか嫌ですよね。<br />
+アニメーションとかあると連打防止とかあれやこれや<br />
+cssで気軽にやりましょう。<br />
+<a href="show.html">サンプル</a>(右上のハンバーガーメニュー)</p>
+
+<h3 id="コード:1349ee8f96230b18df05b8fe556aafb4">コード</h3>
+
+<pre><code class="language-html">&lt;header class=&quot;header&quot;&gt;
+  &lt;div class=&quot;header__navigation&quot;&gt;
+    &lt;input type=&quot;checkbox&quot; id=&quot;navigation&quot; class=&quot;input&quot; /&gt;
+    &lt;label for=&quot;navigation&quot; class=&quot;menu&quot;&gt;&lt;/label&gt;
+    &lt;nav class=&quot;nav&quot;&gt;
+      &lt;a href=&quot;#&quot; class=&quot;nav__item&quot;&gt;hoge&lt;/a&gt;
+      &lt;a href=&quot;#&quot; class=&quot;nav__item&quot;&gt;hoge&lt;/a&gt;
+      &lt;a href=&quot;#&quot; class=&quot;nav__item&quot;&gt;hoge&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/div&gt;
+&lt;/header&gt;
+
+&lt;section&gt;content&lt;/section&gt;
+</code></pre>
+
+<pre><code class="language-css">/* --------------------
+inputはとにかく非表示
+display: none;はNG
+-------------------- */
+.input {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  visibility: hidden;
+}
+.menu {
+  /* 押すところ好きなデザイン(閉じてるとき) */
+}
+.nav {
+  /* 開くところ好きなデザイン(閉じてるとき) */
+}
+.input:checked + .menu {
+  /* 押すところ好きなデザイン(開いてるとき) */
+}
+.input:checked + .menu + .nav {
+  /* 開くところ好きなデザイン(開いてるとき) */
+}
+</code></pre>
+
+<h3 id="なにしたいの:1349ee8f96230b18df05b8fe556aafb4">なにしたいの？</h3>
+
+<p>説明いらなそうだけど<code>:checked</code>でチェックボックスの状態みて隣接セレクタで表示切り替えしてます。<br />
+<code>label</code>の<code>for</code>でinput指定してあげてます。<br />
+label押したらチェックボックス切り替わるぜーってわけです。</p>
+
+<h3 id="サンプル-jade-stylus:1349ee8f96230b18df05b8fe556aafb4">サンプル(jade &amp; stylus)</h3>
+
+<pre><code>.header
+  .header__navigation
+    input.header__navigation__input(type=&quot;checkbox&quot; id=&quot;navigation&quot;)
+    label.header__navigation__menu(for=&quot;navigation&quot;)
+    .header__navigation__contents
+      .header__navigation__contents__item
+        | hoge
+      .header__navigation__contents__item
+        | hoge
+      .header__navigation__contents__item
+        | hoge
+      .header__navigation__contents__item
+        | hoge
+      .header__navigation__contents__item
+        | hoge
+.content
+  | content
+</code></pre>
+
+<pre><code class="language-css">.header
+  width 100%
+  height 50px
+  background green
+  position fixed
+  &amp;__navigation
+    width 100%
+    height 100%
+    &amp;__menu
+      position absolute
+      display block
+      right 10px
+      top 10px
+      height 30px
+      width 30px
+      cursor pointer
+      text-align center
+      transition all 0.5s ease-out
+      &amp;:before
+        content &quot;&quot;
+        display block
+        width 100%
+        height 8px
+        border 2px solid white
+        border-width 2px 0
+        position absolute
+        top 50%
+        left 50%
+        transform translate(-50%, -100%)
+        transition transform 0.5s ease-out,
+                   height 0.5s ease-out,
+                   border-bottom-width 0.5s ease-out
+      &amp;:after
+        content &quot;&quot;
+        display block
+        width 100%
+        height 0
+        border-top 2px solid white
+        position absolute
+        top 50%
+        left 50%
+        transform translate(-50%, 8px)
+        transition transform 0.5s ease-out
+    &amp;__input:checked + &amp;__menu
+      &amp;:before
+        height 0
+        border-bottom-width 0
+        transform translate(-50%, -50%) rotate(225deg)
+      &amp;:after
+        transform translate(-50%, -50%) rotate(-225deg)
+    &amp;__input
+      position absolute
+      width 0
+      height 0
+      box-sizing border-box
+      opacity 0
+      visibility hidden
+    &amp;__contents
+      position absolute
+      top 0
+      left 0
+      width 100%
+      background alpha(black, 0.8)
+      overflow hidden
+      transform translateY(-100%)
+      transition transform 0.5s ease-out
+      &amp;__item
+        text-align center
+        border-top 1px solid white
+        padding 15px 0
+        color white
+        &amp;:first-child
+          border-top none
+    &amp;__input:checked + &amp;__menu + &amp;__contents
+      transform translateY(50px)
+</code></pre>
+
+<p>ざざっと書いたからよく覚えてないけどこんな感じ<br />
+コードのハイライトどうにかしなくちゃ・・・</p>
+
+<h3 id="まとめ:1349ee8f96230b18df05b8fe556aafb4">まとめ</h3>
+
+<p><code>:checked</code>と隣接セレクタでいろいろラク出来るよ！</p>
+</div> </div><footer class=bl-footer><p class=bl-footer__copyright>© 2015 Copyright kazuya</p></footer><script src=https://code.jquery.com/jquery-2.1.4.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js></script><script>hljs.initHighlightingOnLoad();</script>

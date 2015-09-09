@@ -1,0 +1,84 @@
+@import '../../assets/stylus/core/_import'
+
+.header
+  width 100%
+  height 50px
+  background green
+  position fixed
+  &__navigation
+    width 100%
+    height 100%
+    &__menu
+      position absolute
+      display block
+      right 10px
+      top 10px
+      height 30px
+      width 30px
+      cursor pointer
+      text-align center
+      transition all 0.5s ease-out
+      &:before
+        content ""
+        display block
+        width 100%
+        height 8px
+        border 2px solid white
+        border-width 2px 0
+        position absolute
+        top 50%
+        left 50%
+        transform translate(-50%, -100%)
+        transition transform 0.5s ease-out,
+                   height 0.5s ease-out,
+                   border-bottom-width 0.5s ease-out
+      &:after
+        content ""
+        display block
+        width 100%
+        height 0
+        border-top 2px solid white
+        position absolute
+        top 50%
+        left 50%
+        transform translate(-50%, 8px)
+        transition transform 0.5s ease-out
+    &__input:checked + &__menu
+      &:before
+        height 0
+        border-bottom-width 0
+        transform translate(-50%, -50%) rotate(225deg)
+      &:after
+        transform translate(-50%, -50%) rotate(-225deg)
+    &__input
+      position absolute
+      width 0
+      height 0
+      box-sizing border-box
+      opacity 0
+      visibility hidden
+    &__contents
+      position absolute
+      top 0
+      left 0
+      width 100%
+      background alpha(black, 0.8)
+      overflow hidden
+      transform translateY(-100%)
+      transition transform 0.5s ease-out
+      &__item
+        text-align center
+        border-top 1px solid white
+        padding 15px 0
+        color white
+        &:first-child
+          border-top none
+    &__input:checked + &__menu + &__contents
+      transform translateY(50px)
+
+.content
+  width 100%
+  height 100vh
+  background url("/assets/images/sample/background.jpeg") no-repeat
+  background-size cover
+  background-position 50% 50%
