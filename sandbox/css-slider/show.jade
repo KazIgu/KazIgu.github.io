@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+html(lang="ja")
+  head
+    meta(charset="UTF-8")
+    title css parallax
+    link(rel="stylesheet", href="app.css")
+    link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css")
+  body
+    .container
+      .slider
+        input(id="slide01" type="radio" name="slide" checked="checked")
+        input(id="slide02" type="radio" name="slide")
+        input(id="slide03" type="radio" name="slide")
+        label(for="slide01")
+        label(for="slide02")
+        label(for="slide03")
+        .slider__content
+          .slider__content__item
+            h1 content01
+
+          .slider__content__item
+            h1 content02
+
+          .slider__content__item
+            h1 content03
