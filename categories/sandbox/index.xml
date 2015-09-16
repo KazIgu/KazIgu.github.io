@@ -7,8 +7,27 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>© 2015 Copyright kazuya</copyright>
-    <lastBuildDate>Wed, 09 Sep 2015 17:32:46 +0900</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2015 18:48:23 +0900</lastBuildDate>
     <atom:link href="http://kazigu.github.io/categories/sandbox/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>CSSでスライダー</title>
+      <link>http://kazigu.github.io/sandbox/css-slider/</link>
+      <pubDate>Wed, 16 Sep 2015 18:48:23 +0900</pubDate>
+      
+      <guid>http://kazigu.github.io/sandbox/css-slider/</guid>
+      <description>
+
+&lt;p&gt;ネタがないので実用性ないけどcssでスライダー実装してみた&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&#34;show.html&#34;&gt;サンプル&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;めんどくさいので:59c24c54c6c95ea5f382b23c8b86ea4d&#34;&gt;めんどくさいので&lt;/h3&gt;
+
+&lt;p&gt;以下略&lt;br /&gt;
+気が向いたらちゃんと書く&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>CSSでのParallax</title>
