@@ -7,8 +7,181 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>© 2015 Copyright kazuya</copyright>
-    <lastBuildDate>Wed, 16 Sep 2015 18:48:23 +0900</lastBuildDate>
+    <lastBuildDate>Sun, 20 Sep 2015 07:05:48 +0900</lastBuildDate>
     <atom:link href="http://kazigu.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>簡単にテンプレートを作成するmytemplate.jsを作って公開してみた</title>
+      <link>http://kazigu.github.io/post/mytemplate/</link>
+      <pubDate>Sun, 20 Sep 2015 07:05:48 +0900</pubDate>
+      
+      <guid>http://kazigu.github.io/post/mytemplate/</guid>
+      <description>
+
+&lt;p&gt;新しいプロジェクトを作成する度にフロントエンドの環境とかコピペしまくっている自分に気付いた。&lt;br /&gt;
+yeomanとかでgeneratorとか作ってみようかと思ったけどそれもめんどい。&lt;br /&gt;
+そもそもyeoman大嫌い&lt;br /&gt;
+そこで簡単にテンプレートを登録・利用出来るコマンドラインツール作ってみた&lt;/p&gt;
+
+&lt;h3 id=&#34;feature:1f1a17b62b26d2b5ab4f800d39f3f9dd&#34;&gt;Feature&lt;/h3&gt;
+
+&lt;p&gt;ざっくり以下の様なことが出来る&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;今いるディレクトリの中身を特定の名前を付けてテンプレートに登録&lt;/li&gt;
+&lt;li&gt;登録したテンプレートを好きな名前で利用&lt;/li&gt;
+&lt;li&gt;登録したテンプレートの一覧表示&lt;/li&gt;
+&lt;li&gt;不要になったテンプレートを削除&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;install:1f1a17b62b26d2b5ab4f800d39f3f9dd&#34;&gt;Install&lt;/h3&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;npm install -g mytemplate
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;usage:1f1a17b62b26d2b5ab4f800d39f3f9dd&#34;&gt;Usage&lt;/h3&gt;
+
+&lt;p&gt;まずはテンプレート化したいディレクトリに移動&lt;br /&gt;
+仮に&lt;code&gt;my-web-starter-kit&lt;/code&gt;とか作ってたやつを&lt;code&gt;wsk&lt;/code&gt;とかで登録するとしよう&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;cd my-web-starter-kit
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;mytemplate add wsk
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;これでmy-web-starter-kitの中身をwskとして登録完了&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;mytemplate list
+ &amp;gt; wsk
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;みたいになってたらいい感じ&lt;/p&gt;
+
+&lt;p&gt;利用するときは&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;mytemplate new wsk projectA
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h3 id=&#34;実装してみて:1f1a17b62b26d2b5ab4f800d39f3f9dd&#34;&gt;実装してみて&lt;/h3&gt;
+
+&lt;p&gt;まだパフォーマンス悪いから改善しなくちゃ&lt;br /&gt;
+あと&lt;a href=&#34;https://www.npmjs.com/package/commander&#34;&gt;commander&lt;/a&gt;がとても便利だった。&lt;br /&gt;
+おすすめです。&lt;br /&gt;
+とりあえず個人用で作成したので諸々保証しかねますが好きに使ってみてください。&lt;br /&gt;
+&lt;a href=&#34;https://github.com/KazIgu/mytemplate.js/issues&#34;&gt;issue&lt;/a&gt;やプルリクも大歓迎です。&lt;br /&gt;
+githubは&lt;a href=&#34;https://github.com/KazIgu/mytemplate.js&#34;&gt;こちら&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>hubot-slackでのメンション</title>
+      <link>http://kazigu.github.io/post/slack-hubot-mention/</link>
+      <pubDate>Fri, 18 Sep 2015 16:17:18 +0900</pubDate>
+      
+      <guid>http://kazigu.github.io/post/slack-hubot-mention/</guid>
+      <description>
+
+&lt;p&gt;アダプタがv2からv3に変わってメンション周りが変更されて面倒だったのでメモ&lt;/p&gt;
+
+&lt;h3 id=&#34;ユーザー名からメンション:f904900465c9d53f4e81ca530b38aabd&#34;&gt;ユーザー名からメンション&lt;/h3&gt;
+
+&lt;p&gt;これはとても簡単&lt;br /&gt;
+ユーザー名がhogeとかなら&lt;code&gt;&amp;lt;@hoge&amp;gt;&lt;/code&gt;でいい&lt;br /&gt;
+でもusernameがhoge.fooとかだとちゃんとメンション効かない&lt;br /&gt;
+そういう時はidでメンション送らせるのがいいと思う&lt;/p&gt;
+
+&lt;h3 id=&#34;idからメンション:f904900465c9d53f4e81ca530b38aabd&#34;&gt;idからメンション&lt;/h3&gt;
+
+&lt;p&gt;&lt;code&gt;&amp;lt;@&amp;gt;&lt;/code&gt;はidを渡しても使えるっぽい&lt;br /&gt;
+slackbotのidはUSLACKBOTらしいのでそれを例にすると&lt;code&gt;&amp;lt;@USLACKBOT&amp;gt;&lt;/code&gt;みたいな感じ&lt;/p&gt;
+
+&lt;p&gt;でもidは普段見えないから取得しなきゃいけない&lt;br /&gt;
+ユーザーの情報は&lt;code&gt;robot.brain.data.users&lt;/code&gt;に入ってるので&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Users = robot.brain.data.users
+for key of Users
+  if &#39;hoge.foo&#39; == Users[key].name
+    return Users[key].id
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;とかすればユーザー名からidを取得できる&lt;br /&gt;
+そいつを使って&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Users = robot.brain.data.users
+
+getUserId = (name) -&amp;gt;
+  for key of Users
+    if name == Users[key].name
+      return Users[key].id
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;こんなの用意して&lt;code&gt;&amp;lt;@#{getUserId(hoge.foo)}&amp;gt;&lt;/code&gt;とかするといい&lt;/p&gt;
+
+&lt;h3 id=&#34;utilにしとこう:f904900465c9d53f4e81ca530b38aabd&#34;&gt;Utilにしとこう&lt;/h3&gt;
+
+&lt;p&gt;どうせメンションとかよく使うので僕は&lt;code&gt;./scripts&lt;/code&gt;内にこんな感じファイルを&lt;code&gt;util.coffee&lt;/code&gt;とか名前付けて用意してる&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;ensureImageExtension = (url) -&amp;gt;
+  ext = url.split(&#39;.&#39;).pop()
+  if /(png|jpe?g|gif)/i.test(ext)
+    url
+  else
+    &amp;quot;#{url}#.png&amp;quot;
+
+
+Robot = (robot) -&amp;gt;
+  Util = {}
+  Users = robot.brain.data.users
+  delete Users.USLACKBOT
+
+  Util.getUsers = -&amp;gt;
+    return Users
+
+  Util.getUserId = (name) -&amp;gt;
+    for key of Users
+      if name == Users[key].name
+        return Users[key].id
+
+  Util.imageMe = (msg, query, animated, faces, cb) -&amp;gt;
+    cb = animated if typeof animated == &#39;function&#39;
+    cb = faces if typeof faces == &#39;function&#39;
+    q = v: &#39;1.0&#39;, rsz: &#39;8&#39;, q: query, safe: &#39;active&#39;
+    q.imgtype = &#39;animated&#39; if typeof animated is &#39;boolean&#39; and animated is true
+    q.imgtype = &#39;face&#39; if typeof faces is &#39;boolean&#39; and faces is true
+    msg.http(&#39;http://ajax.googleapis.com/ajax/services/search/images&#39;)
+      .query(q)
+      .get() (err, res, body) -&amp;gt;
+        images = JSON.parse(body)
+        images = images.responseData?.results
+        if images?.length &amp;gt; 0
+          image = msg.random images
+          cb ensureImageExtension image.unescapedUrl
+
+  robot.util = Util
+
+module.exports = Robot
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;そんで&lt;code&gt;main.coffee&lt;/code&gt;で&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;require &#39;./util.coffee&#39;
+module.exports = (robot) -&amp;gt;
+  mention = (name) -&amp;gt;
+    return &amp;quot;&amp;lt;@#{robot.util.getUserId(name)}&amp;gt;:&amp;quot;
+
+  robot.hear /hogehoge/, (msg) -&amp;gt;
+    msg.send &amp;quot;#{mention(msg.message.user.name)}\nhogehoge&amp;quot;
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;みたいな感じ&lt;/p&gt;
+
+&lt;h3 id=&#34;まとめ:f904900465c9d53f4e81ca530b38aabd&#34;&gt;まとめ&lt;/h3&gt;
+
+&lt;p&gt;飽きたのでまとめるまでもなく〆ます&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>CSSでスライダー</title>

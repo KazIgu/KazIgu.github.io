@@ -1,0 +1,105 @@
+<!DOCTYPE html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"><title>hubot-slackでのメンション</title><link href="//fonts.googleapis.com/css?family=Dosis" rel=stylesheet type=text/css><link href=http://kazigu.github.io/css/app.css type=text/css rel=stylesheet media=screen,projection><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/monokai_sublime.min.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css></head><body><noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5XJJJ4" height=0 width=0 style=display:none;visibility:hidden></iframe></noscript><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5XJJJ4');</script><header class=bl-header><h2 class=bl-header__title><a href=http://kazigu.github.io>KazIgu SandBox</a></h2><p class=bl-header__description>作るぜー</p><nav class=bl-header__navigation><a class=is-trick title="CSS Tricks" href=http://kazigu.github.io/tags/css-trick>CSS Tricks</a> <a href=http://kazigu.github.io/categories>Categories</a> <a href=http://kazigu.github.io/tags>Tags</a></nav><div class=bl-header__social> <a class=bl-header__social__github href="https://github.com/KazIgu"><i class="fa fa-github"></i></a>     </div></header></body></html> <div class=bl-article itemscope itemtype=http://schema.org/Article><div class=bl-article__head><meta itemprop=image content="http://kazigu.github.io/assets/images/content/readme.jpg"><p class=bl-article__head__date itemprop=datePublished content='2015-09-18'>2015/09/18</p><h1 class=bl-article__head__title itemprop=headline>hubot-slackでのメンション</h1><div class=bl-article__head__category> <a href="http://kazigu.github.io/categories/others/" itemprop=articleSection>Others</a> </div> </div><div class=bl-article__body itemprop=articleBody>
+
+<p>アダプタがv2からv3に変わってメンション周りが変更されて面倒だったのでメモ</p>
+
+<h3 id="ユーザー名からメンション:f904900465c9d53f4e81ca530b38aabd">ユーザー名からメンション</h3>
+
+<p>これはとても簡単<br />
+ユーザー名がhogeとかなら<code>&lt;@hoge&gt;</code>でいい<br />
+でもusernameがhoge.fooとかだとちゃんとメンション効かない<br />
+そういう時はidでメンション送らせるのがいいと思う</p>
+
+<h3 id="idからメンション:f904900465c9d53f4e81ca530b38aabd">idからメンション</h3>
+
+<p><code>&lt;@&gt;</code>はidを渡しても使えるっぽい<br />
+slackbotのidはUSLACKBOTらしいのでそれを例にすると<code>&lt;@USLACKBOT&gt;</code>みたいな感じ</p>
+
+<p>でもidは普段見えないから取得しなきゃいけない<br />
+ユーザーの情報は<code>robot.brain.data.users</code>に入ってるので</p>
+
+<pre><code>Users = robot.brain.data.users
+for key of Users
+  if 'hoge.foo' == Users[key].name
+    return Users[key].id
+</code></pre>
+
+<p>とかすればユーザー名からidを取得できる<br />
+そいつを使って</p>
+
+<pre><code>Users = robot.brain.data.users
+
+getUserId = (name) -&gt;
+  for key of Users
+    if name == Users[key].name
+      return Users[key].id
+</code></pre>
+
+<p>こんなの用意して<code>&lt;@#{getUserId(hoge.foo)}&gt;</code>とかするといい</p>
+
+<h3 id="utilにしとこう:f904900465c9d53f4e81ca530b38aabd">Utilにしとこう</h3>
+
+<p>どうせメンションとかよく使うので僕は<code>./scripts</code>内にこんな感じファイルを<code>util.coffee</code>とか名前付けて用意してる</p>
+
+<pre><code>ensureImageExtension = (url) -&gt;
+  ext = url.split('.').pop()
+  if /(png|jpe?g|gif)/i.test(ext)
+    url
+  else
+    &quot;#{url}#.png&quot;
+
+
+Robot = (robot) -&gt;
+  Util = {}
+  Users = robot.brain.data.users
+  delete Users.USLACKBOT
+
+  Util.getUsers = -&gt;
+    return Users
+
+  Util.getUserId = (name) -&gt;
+    for key of Users
+      if name == Users[key].name
+        return Users[key].id
+
+  Util.imageMe = (msg, query, animated, faces, cb) -&gt;
+    cb = animated if typeof animated == 'function'
+    cb = faces if typeof faces == 'function'
+    q = v: '1.0', rsz: '8', q: query, safe: 'active'
+    q.imgtype = 'animated' if typeof animated is 'boolean' and animated is true
+    q.imgtype = 'face' if typeof faces is 'boolean' and faces is true
+    msg.http('http://ajax.googleapis.com/ajax/services/search/images')
+      .query(q)
+      .get() (err, res, body) -&gt;
+        images = JSON.parse(body)
+        images = images.responseData?.results
+        if images?.length &gt; 0
+          image = msg.random images
+          cb ensureImageExtension image.unescapedUrl
+
+  robot.util = Util
+
+module.exports = Robot
+</code></pre>
+
+<p>そんで<code>main.coffee</code>で</p>
+
+<pre><code>require './util.coffee'
+module.exports = (robot) -&gt;
+  mention = (name) -&gt;
+    return &quot;&lt;@#{robot.util.getUserId(name)}&gt;:&quot;
+
+  robot.hear /hogehoge/, (msg) -&gt;
+    msg.send &quot;#{mention(msg.message.user.name)}\nhogehoge&quot;
+
+</code></pre>
+
+<p>みたいな感じ</p>
+
+<h3 id="まとめ:f904900465c9d53f4e81ca530b38aabd">まとめ</h3>
+
+<p>飽きたのでまとめるまでもなく〆ます</p>
+</div> </div><footer class=bl-footer><p class=bl-footer__copyright>© 2015 Copyright kazuya</p></footer><script src=https://code.jquery.com/jquery-2.1.4.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js></script><script>hljs.initHighlightingOnLoad();</script><script src="//sitest.jp/tracking/sitest_js?p=55f943acefb6a"></script>
