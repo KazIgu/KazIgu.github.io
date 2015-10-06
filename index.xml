@@ -7,8 +7,164 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>ja</language>
     <copyright>© 2015 Copyright kazuya</copyright>
-    <lastBuildDate>Sun, 20 Sep 2015 07:05:48 +0900</lastBuildDate>
+    <lastBuildDate>Tue, 06 Oct 2015 11:10:25 +0900</lastBuildDate>
     <atom:link href="http://kazigu.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Akiyamarkdownをelectronで作ってみた</title>
+      <link>http://kazigu.github.io/post/amd/</link>
+      <pubDate>Tue, 06 Oct 2015 11:10:25 +0900</pubDate>
+      
+      <guid>http://kazigu.github.io/post/amd/</guid>
+      <description>
+
+&lt;p&gt;以前&lt;a href=&#34;http://kazigu.github.io/sandbox/akiyamarkdown/&#34;&gt;Akiyamarkdown&lt;/a&gt;で紹介したSublime TextのpluginであるAkiyamarkdownをElectronのアプリにしてみた&lt;br /&gt;
+ダウンロードは&lt;a href=&#34;https://github.com/KazIgu/akiyamarkdown/releases&#34;&gt;こちら&lt;/a&gt;からどうぞ&lt;/p&gt;
+
+&lt;h2 id=&#34;改めてakiyamarkdownとは:f229634d0cd3d7ef8da5c852ab62d2b6&#34;&gt;改めてAkiyamarkdownとは&lt;/h2&gt;
+
+&lt;p&gt;弊社&lt;a href=&#34;http://saib-stud.io/&#34;&gt;saib studio&lt;/a&gt;代表秋山の手癖によって誕生したメモ書きの記法である。&lt;br /&gt;
+これといった利点は特に無い。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://kazigu.github.io/assets/images/content/amd/1.gif&#34; alt=&#34;こんなの&#34; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;なにができるの:f229634d0cd3d7ef8da5c852ab62d2b6&#34;&gt;なにができるの？&lt;/h3&gt;
+
+&lt;p&gt;秋山曰く&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;別になにもできないよ！  
+秋山がメモ書きしやすくなるだけだよ！  
+今後この記法をベースに、リアルタイムにツリー図が作成されるツールを開発予定だよ！
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;とのこと&lt;br /&gt;
+リアルタイムにツリー図が作成されるツールを開発予定だと・・・？&lt;br /&gt;
+どうせ作るの俺なのに&lt;/p&gt;
+
+&lt;h3 id=&#34;結局なんなの:f229634d0cd3d7ef8da5c852ab62d2b6&#34;&gt;結局なんなの？&lt;/h3&gt;
+
+&lt;p&gt;なんなんだろう・・・
+インデントは全角スペースだし→やら・やら■のオンパレードです&lt;br /&gt;
+ただ意外と議事録取りやすい&lt;br /&gt;
+markdownより優しい&lt;br /&gt;
+ちなみにakiyamarkdownからmarkdownに変換する機能も付けました&lt;/p&gt;
+
+&lt;h2 id=&#34;実装にあたって:f229634d0cd3d7ef8da5c852ab62d2b6&#34;&gt;実装にあたって&lt;/h2&gt;
+
+&lt;p&gt;githubは&lt;a href=&#34;https://github.com/KazIgu/akiyamarkdown&#34;&gt;こちら&lt;/a&gt;&lt;br /&gt;
+実装に使ったものはざっくり２つ&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Electron&lt;/li&gt;
+&lt;li&gt;Ace&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;electron:f229634d0cd3d7ef8da5c852ab62d2b6&#34;&gt;Electron&lt;/h3&gt;
+
+&lt;p&gt;言わずと知れたnodeとhtml5でいい感じにデスクトップアプリが作れるgithub製のツール&lt;br /&gt;
+Babelとかで書くのが流行ってる気配だけど気にせずcoffeeで実装した&lt;/p&gt;
+
+&lt;p&gt;ハマったポイントはコピペ周り&lt;br /&gt;
+ローカルで&lt;code&gt;electron .&lt;/code&gt;で起動した際にはコピーもペーストも効くのにbuildしたら効かないという&lt;br /&gt;
+ググってみたら自分で実装しろとのこと&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;Clipboard = require &#39;clipboard&#39;
+copy = () -&amp;gt;
+  id = ID
+  editor = ace.edit(&amp;quot;editor#{id}&amp;quot;)
+  texts = editor.getSelectedText()
+
+  Clipboard.writeText texts
+
+cut = () -&amp;gt;
+  id = ID
+  editor = ace.edit(&amp;quot;editor#{id}&amp;quot;)
+  texts = editor.getSelectedText()
+  target = editor.selection.getRange()
+
+  editor.session.remove target
+  Clipboard.writeText texts
+
+paste = () -&amp;gt;
+  id = ID
+  editor = ace.edit(&amp;quot;editor#{id}&amp;quot;)
+  target = editor.selection.getCursor()
+  texts = Clipboard.readText()
+
+  editor.session.insert target, texts
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;こんな感じに実装してみた&lt;br /&gt;
+aceとの兼ね合いでこんななってるだけなんでidやらeditorやらは無視してくださいな&lt;br /&gt;
+コピペ周りはClipboardのとこだけです&lt;/p&gt;
+
+&lt;p&gt;あとなにげにdockにファイルをドラッグアンドドロップで開くってのも調べるのに時間かかったかも&lt;br /&gt;
+&lt;code&gt;info.plist&lt;/code&gt;に以下を記載で下準備&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;&amp;lt;key&amp;gt;CFBundleDocumentTypes&amp;lt;/key&amp;gt;
+&amp;lt;array&amp;gt;
+  &amp;lt;dict&amp;gt;
+    &amp;lt;key&amp;gt;CFBundleTypeExtensions&amp;lt;/key&amp;gt;
+    &amp;lt;array&amp;gt;
+      &amp;lt;string&amp;gt;amd&amp;lt;/string&amp;gt;
+    &amp;lt;/array&amp;gt;
+    &amp;lt;key&amp;gt;CFBundleTypeIconFile&amp;lt;/key&amp;gt;
+    &amp;lt;string&amp;gt;&amp;lt;/string&amp;gt;
+    &amp;lt;key&amp;gt;CFBundleTypeName&amp;lt;/key&amp;gt;
+    &amp;lt;string&amp;gt;AMD&amp;lt;/string&amp;gt;
+    &amp;lt;key&amp;gt;CFBundleTypeRole&amp;lt;/key&amp;gt;
+    &amp;lt;string&amp;gt;Editor&amp;lt;/string&amp;gt;
+    &amp;lt;key&amp;gt;LSHandlerRank&amp;lt;/key&amp;gt;
+    &amp;lt;string&amp;gt;Alternate&amp;lt;/string&amp;gt;
+  &amp;lt;/dict&amp;gt;
+&amp;lt;/array&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;CFBundleTypeExtensions&lt;/code&gt;に開ける拡張子を指定。&lt;br /&gt;
+今回はAkiyamarkdownが&lt;code&gt;.amd&lt;/code&gt;なのでAMDだけ指定&lt;br /&gt;
+あとはアプリ内で&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-coffee&#34;&gt;app.on &#39;open-file&#39;, (e, path) -&amp;gt;
+  e.preventDefault()
+  createEditor path
+  remote.getCurrentWindow().focus()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;こんな感じ&lt;br /&gt;
+&lt;code&gt;open-file&lt;/code&gt;がファイルのpathくれるからそれを使ってfsやらでファイルを読みこめばいい&lt;br /&gt;
+必ず&lt;code&gt;e.preventDefault()&lt;/code&gt;しないといけないそうな&lt;/p&gt;
+
+&lt;h3 id=&#34;ace:f229634d0cd3d7ef8da5c852ab62d2b6&#34;&gt;Ace&lt;/h3&gt;
+
+&lt;p&gt;ブラウザ上で使えるjs製のテキストエディタ&lt;br /&gt;
+&lt;a href=&#34;http://ace.c9.io/&#34;&gt;公式サイト&lt;/a&gt;見ながらちまちま実装した&lt;br /&gt;
+いろいろハマった&lt;br /&gt;
+今の実装で正しいのかもわからん&lt;/p&gt;
+
+&lt;p&gt;とりあえず複数タブで使えるようにしたかったのでそんな機能ないかなぁとドキュメントを見た結果そんなのないから独自実装しろとのこと&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;editor = ace.edit(&amp;quot;editor&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;これでeditorってidにエディタを作るらしい&lt;br /&gt;
+複数タブ用にユニークなid必要だったから&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-coffee&#34;&gt;id = Date.now()
+editor = ace.edit(&amp;quot;editor#{id}&amp;quot;)
+# ついでにタブも作成
+$tab = $(&amp;quot;&amp;lt;div id=&#39;tab#{id}&#39; class=&#39;tab&#39;&amp;gt;&amp;lt;span id=&#39;close#{id}&#39; class=&#39;close&#39;&amp;gt;×&amp;lt;/span&amp;gt;&amp;lt;/div&amp;gt;&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;とかやっちゃいました&lt;br /&gt;
+まぁめんどくさいのでgithub見てください&lt;/p&gt;
+
+&lt;h3 id=&#34;まとめ-所感:f229634d0cd3d7ef8da5c852ab62d2b6&#34;&gt;まとめ&amp;amp;所感&lt;/h3&gt;
+
+&lt;p&gt;遊びで作る分には楽しかった。&lt;br /&gt;
+秋山くんからやたらとissueが上がってくる。たすけて&lt;br /&gt;
+Electron単体で100MBとかなるんだけどみんなどうしてるんだろ&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>簡単にテンプレートを作成するmytemplate.jsを作って公開してみた</title>

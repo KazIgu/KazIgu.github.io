@@ -1,0 +1,152 @@
+<!DOCTYPE html><html lang=ja><head><meta charset=utf-8><meta name=viewport content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"><title>Akiyamarkdownをelectronで作ってみた</title><link href="//fonts.googleapis.com/css?family=Dosis" rel=stylesheet type=text/css><link href=http://kazigu.github.io/css/app.css type=text/css rel=stylesheet media=screen,projection><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/styles/monokai_sublime.min.css><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css></head><body><noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5XJJJ4" height=0 width=0 style=display:none;visibility:hidden></iframe></noscript><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-5XJJJ4');</script><header class=bl-header><h2 class=bl-header__title><a href=http://kazigu.github.io>KazIgu SandBox</a></h2><p class=bl-header__description>作るぜー</p><nav class=bl-header__navigation><a class=is-trick title="CSS Tricks" href=http://kazigu.github.io/tags/css-trick>CSS Tricks</a> <a href=http://kazigu.github.io/categories>Categories</a> <a href=http://kazigu.github.io/tags>Tags</a></nav><div class=bl-header__social> <a class=bl-header__social__github href="https://github.com/KazIgu"><i class="fa fa-github"></i></a>     </div></header></body></html> <div class=bl-article itemscope itemtype=http://schema.org/Article><div class=bl-article__head><meta itemprop=image content="http://kazigu.github.io/assets/images/content/amd.png"><p class=bl-article__head__date itemprop=datePublished content='2015-10-06'>2015/10/06</p><h1 class=bl-article__head__title itemprop=headline>Akiyamarkdownをelectronで作ってみた</h1><div class=bl-article__head__category> <a href="http://kazigu.github.io/categories/others/" itemprop=articleSection>Others</a> </div> </div><div class=bl-article__body itemprop=articleBody>
+
+<p>以前<a href="/sandbox/akiyamarkdown/">Akiyamarkdown</a>で紹介したSublime TextのpluginであるAkiyamarkdownをElectronのアプリにしてみた<br />
+ダウンロードは<a href="https://github.com/KazIgu/akiyamarkdown/releases">こちら</a>からどうぞ</p>
+
+<h2 id="改めてakiyamarkdownとは:f229634d0cd3d7ef8da5c852ab62d2b6">改めてAkiyamarkdownとは</h2>
+
+<p>弊社<a href="http://saib-stud.io/">saib studio</a>代表秋山の手癖によって誕生したメモ書きの記法である。<br />
+これといった利点は特に無い。</p>
+
+<p><img src="/assets/images/content/amd/1.gif" alt="こんなの" /></p>
+
+<h3 id="なにができるの:f229634d0cd3d7ef8da5c852ab62d2b6">なにができるの？</h3>
+
+<p>秋山曰く</p>
+
+<pre><code>別になにもできないよ！  
+秋山がメモ書きしやすくなるだけだよ！  
+今後この記法をベースに、リアルタイムにツリー図が作成されるツールを開発予定だよ！
+</code></pre>
+
+<p>とのこと<br />
+リアルタイムにツリー図が作成されるツールを開発予定だと・・・？<br />
+どうせ作るの俺なのに</p>
+
+<h3 id="結局なんなの:f229634d0cd3d7ef8da5c852ab62d2b6">結局なんなの？</h3>
+
+<p>なんなんだろう・・・
+インデントは全角スペースだし→やら・やら■のオンパレードです<br />
+ただ意外と議事録取りやすい<br />
+markdownより優しい<br />
+ちなみにakiyamarkdownからmarkdownに変換する機能も付けました</p>
+
+<h2 id="実装にあたって:f229634d0cd3d7ef8da5c852ab62d2b6">実装にあたって</h2>
+
+<p>githubは<a href="https://github.com/KazIgu/akiyamarkdown">こちら</a><br />
+実装に使ったものはざっくり２つ</p>
+
+<ul>
+<li>Electron</li>
+<li>Ace</li>
+</ul>
+
+<h3 id="electron:f229634d0cd3d7ef8da5c852ab62d2b6">Electron</h3>
+
+<p>言わずと知れたnodeとhtml5でいい感じにデスクトップアプリが作れるgithub製のツール<br />
+Babelとかで書くのが流行ってる気配だけど気にせずcoffeeで実装した</p>
+
+<p>ハマったポイントはコピペ周り<br />
+ローカルで<code>electron .</code>で起動した際にはコピーもペーストも効くのにbuildしたら効かないという<br />
+ググってみたら自分で実装しろとのこと</p>
+
+<pre><code>Clipboard = require 'clipboard'
+copy = () -&gt;
+  id = ID
+  editor = ace.edit(&quot;editor#{id}&quot;)
+  texts = editor.getSelectedText()
+
+  Clipboard.writeText texts
+
+cut = () -&gt;
+  id = ID
+  editor = ace.edit(&quot;editor#{id}&quot;)
+  texts = editor.getSelectedText()
+  target = editor.selection.getRange()
+
+  editor.session.remove target
+  Clipboard.writeText texts
+
+paste = () -&gt;
+  id = ID
+  editor = ace.edit(&quot;editor#{id}&quot;)
+  target = editor.selection.getCursor()
+  texts = Clipboard.readText()
+
+  editor.session.insert target, texts
+</code></pre>
+
+<p>こんな感じに実装してみた<br />
+aceとの兼ね合いでこんななってるだけなんでidやらeditorやらは無視してくださいな<br />
+コピペ周りはClipboardのとこだけです</p>
+
+<p>あとなにげにdockにファイルをドラッグアンドドロップで開くってのも調べるのに時間かかったかも<br />
+<code>info.plist</code>に以下を記載で下準備</p>
+
+<pre><code>&lt;key&gt;CFBundleDocumentTypes&lt;/key&gt;
+&lt;array&gt;
+  &lt;dict&gt;
+    &lt;key&gt;CFBundleTypeExtensions&lt;/key&gt;
+    &lt;array&gt;
+      &lt;string&gt;amd&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;CFBundleTypeIconFile&lt;/key&gt;
+    &lt;string&gt;&lt;/string&gt;
+    &lt;key&gt;CFBundleTypeName&lt;/key&gt;
+    &lt;string&gt;AMD&lt;/string&gt;
+    &lt;key&gt;CFBundleTypeRole&lt;/key&gt;
+    &lt;string&gt;Editor&lt;/string&gt;
+    &lt;key&gt;LSHandlerRank&lt;/key&gt;
+    &lt;string&gt;Alternate&lt;/string&gt;
+  &lt;/dict&gt;
+&lt;/array&gt;
+</code></pre>
+
+<p><code>CFBundleTypeExtensions</code>に開ける拡張子を指定。<br />
+今回はAkiyamarkdownが<code>.amd</code>なのでAMDだけ指定<br />
+あとはアプリ内で</p>
+
+<pre><code class="language-coffee">app.on 'open-file', (e, path) -&gt;
+  e.preventDefault()
+  createEditor path
+  remote.getCurrentWindow().focus()
+</code></pre>
+
+<p>こんな感じ<br />
+<code>open-file</code>がファイルのpathくれるからそれを使ってfsやらでファイルを読みこめばいい<br />
+必ず<code>e.preventDefault()</code>しないといけないそうな</p>
+
+<h3 id="ace:f229634d0cd3d7ef8da5c852ab62d2b6">Ace</h3>
+
+<p>ブラウザ上で使えるjs製のテキストエディタ<br />
+<a href="http://ace.c9.io/">公式サイト</a>見ながらちまちま実装した<br />
+いろいろハマった<br />
+今の実装で正しいのかもわからん</p>
+
+<p>とりあえず複数タブで使えるようにしたかったのでそんな機能ないかなぁとドキュメントを見た結果そんなのないから独自実装しろとのこと</p>
+
+<pre><code>editor = ace.edit(&quot;editor&quot;)
+</code></pre>
+
+<p>これでeditorってidにエディタを作るらしい<br />
+複数タブ用にユニークなid必要だったから</p>
+
+<pre><code class="language-coffee">id = Date.now()
+editor = ace.edit(&quot;editor#{id}&quot;)
+# ついでにタブも作成
+$tab = $(&quot;&lt;div id='tab#{id}' class='tab'&gt;&lt;span id='close#{id}' class='close'&gt;×&lt;/span&gt;&lt;/div&gt;&quot;)
+</code></pre>
+
+<p>とかやっちゃいました<br />
+まぁめんどくさいのでgithub見てください</p>
+
+<h3 id="まとめ-所感:f229634d0cd3d7ef8da5c852ab62d2b6">まとめ&amp;所感</h3>
+
+<p>遊びで作る分には楽しかった。<br />
+秋山くんからやたらとissueが上がってくる。たすけて<br />
+Electron単体で100MBとかなるんだけどみんなどうしてるんだろ</p>
+</div> </div><footer class=bl-footer><p class=bl-footer__copyright>© 2015 Copyright kazuya</p></footer><script src=https://code.jquery.com/jquery-2.1.4.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.7/highlight.min.js></script><script>hljs.initHighlightingOnLoad();</script><script src="//sitest.jp/tracking/sitest_js?p=55f943acefb6a"></script>
