@@ -30,7 +30,7 @@ gulp.task 'jade', ->
 
 gulp.task 'default', ['stylus', 'jade']
 
-gulp.task 'develop', ->
+gulp.task 'develop', 'default', ->
   watch ["./**/*.styl"], () ->
     gulp.start 'stylus'
   watch ["./**/*.jade"], () ->
