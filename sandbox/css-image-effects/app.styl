@@ -1,0 +1,134 @@
+@import '../../assets/stylus/core/_import'
+@import '../../assets/stylus/component/_article'
+
+html, body
+  height 100%
+  overflow hidden
+.container
+  perspective 100px
+  height 100vh
+  overflow-x hidden
+  overflow-y scroll
+  -webkit-overflow-scrolling touch
+  line-height 0
+
+.item
+  width 300px
+  height 200px
+  overflow hidden
+  position relative
+  cursor pointer
+  display inline-block
+  line-height 0
+  font-size 0
+  &:after
+    content ''
+    display block
+    width 100%
+    height 100%
+    position absolute
+    top 0
+    left 0
+    opacity 0
+    transition opacity 0.25s ease-out
+    mix-blend-mode overlay
+    background radial-gradient(200px circle at 30% 10%, orange, rgba(255,255,255,0)),
+               radial-gradient(300px circle at 80% 60%, red, rgba(255,255,255,0))
+  &:hover:after
+    opacity 1
+  img
+    width 100%
+    line-height 0
+    font-size 0
+
+  &:nth-child(2):after
+    mix-blend-mode multiply
+
+  &:nth-child(3):after
+    mix-blend-mode screen
+
+  &:nth-child(4):after
+    mix-blend-mode color-dodge
+
+  &:nth-child(5):after
+    mix-blend-mode difference
+
+  &:nth-child(6):after
+    mix-blend-mode luminosity
+
+.item2
+  width 300px
+  height 200px
+  overflow hidden
+  position relative
+  cursor pointer
+  display inline-block
+  line-height 0
+  font-size 0
+  img
+    width 100%
+    line-height 0
+    font-size 0
+  &:nth-child(7)
+    transition filter 0.25s ease-out,
+               -webkit-filter 0.25s ease-out
+    &:hover
+      filter blur(3px)
+  &:nth-child(8)
+    &:after
+      content ''
+      display block
+      width 100%
+      height 100%
+      background url('/assets/images/sample/rain_window.jpg')
+      background-size 200%
+      background-position 70% 34%
+      mix-blend-mode darken
+      position absolute
+      top 0
+      left 0
+      z-index 3
+      opacity 0
+      transition opacity 0.25s ease-out
+    // &:after
+    //   content ''
+    //   display block
+    //   width 100%
+    //   height 100%
+    //   background url('https://33.media.tumblr.com/efd1ec0430e0105eb44498c285119a2e/tumblr_nkm0ccJIZi1rfp1lho1_500.gif')
+    //   background-size cover
+    //   mix-blend-mode lighten
+    //   position absolute
+    //   top 0
+    //   left 0
+    //   z-index 3
+    //   opacity 0
+    //   transition opacity 0.25s ease-out
+    img
+      transition filter 0.25s ease-out,
+                 -webkit-filter 0.25s ease-out
+    &:hover
+      &:after
+        opacity 1
+      img
+        filter blur(3px)
+
+  &:nth-child(9)
+    &:after
+      content ''
+      display block
+      width 100%
+      height 100%
+      background url('/assets/images/sample/brokenglass.png')
+      background-size cover
+      background-position 100% 100%
+      mix-blend-mode screen
+      position absolute
+      top 0
+      left 0
+      z-index 3
+      opacity 0
+      transition opacity 0.25s ease-out
+    &:hover
+      &:after
+        opacity 1
